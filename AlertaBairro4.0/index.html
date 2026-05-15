@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Alerta Bairro</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet"
+  href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+
+<body>
+
+<div id="loginPage" class="login-box">
+
+  <h2>🚨 Alerta Bairro</h2>
+
+  <input type="text" id="usuario" placeholder="Usuário">
+
+  <input type="password" id="senha" placeholder="Senha">
+
+  <button class="salvar" onclick="login()">Entrar</button>
+
+  <p>
+    Usuário: admin | Senha: 123
+  </p>
+
+</div>
+
+<div id="sistema" style="display:none;">
+
+<header>
+  <h1>🚨 Alerta Bairro</h1>
+  <p>Segurança e comunicação comunitária</p>
+</header>
+
+<nav>
+
+<button onclick="mostrarPagina('inicio')">
+🏠 Início
+</button>
+
+<button onclick="mostrarPagina('criar')">
+🚨 Criar Alerta
+</button>
+
+<button onclick="mostrarPagina('alertas')">
+📢 Alertas
+</button>
+
+<button onclick="mostrarPagina('mapaPagina')">
+🗺️ Mapa
+</button>
+
+<button onclick="mostrarPagina('sobre')">
+ℹ Sobre
+</button>
+
+</nav>
+
+<div class="container">
+
+<div id="inicio" class="pagina ativa">
+
+<div class="card">
+
+<h2>Bem-vindo</h2>
+
+<p>
+Plataforma para alertas comunitários.
+</p>
+
+</div>
+
+</div>
+
+<div id="criar" class="pagina">
+
+<div class="card">
+
+<h2>Criar Alerta</h2>
+
+<select id="tipo">
+
+<option value="">
+Selecione o tipo
+</option>
+
+<option>Roubo</option>
+<option>Alagamento</option>
+<option>Falta de Luz</option>
+<option>Animal Perdido</option>
+
+</select>
+
+<input type="text"
+id="bairro"
+placeholder="Digite o bairro">
+
+<textarea id="descricao"
+rows="4"
+placeholder="Descreva o problema">
+</textarea>
+
+<button class="salvar"
+onclick="criarAlerta()">
+
+Publicar Alerta
+
+</button>
+
+</div>
+
+</div>
+
+<div id="alertas" class="pagina">
+
+<div class="card">
+
+<h2>📢 Alertas Publicados</h2>
+
+<div id="listaAlertas"></div>
+
+</div>
+
+</div>
+
+<div id="mapaPagina" class="pagina">
+
+<div class="card">
+
+<h2>🗺️ Mapa Interativo</h2>
+
+<p>
+Clique no mapa para criar um alerta.
+</p>
+
+<div id="mapa"></div>
+
+</div>
+
+</div>
+
+<div id="sobre" class="pagina">
+
+<div class="card">
+
+<h2>ℹ Sobre o Projeto</h2>
+
+<p>
+Projeto acadêmico desenvolvido para
+melhorar a comunicação da comunidade.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
