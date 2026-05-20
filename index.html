@@ -3,31 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Alerta Bairro</title>
-
   <link rel="stylesheet" href="style.css">
-
-  <link rel="stylesheet"
-  href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 
 <body>
 
 <div id="loginPage" class="login-box">
-
   <h2>🚨 Alerta Bairro</h2>
-
-  <input type="text" id="usuario" placeholder="Usuário">
-
-  <input type="password" id="senha" placeholder="Senha">
+  
+  <input type="email" id="email" placeholder="Seu E-mail">
+  <input type="password" id="senha" placeholder="Sua Senha">
+  
+  <div style="text-align: left; margin-top: 5px; margin-bottom: 10px;">
+    <input type="checkbox" id="mostrar" onclick="mostrarOcultarSenhaLogin()" style="width: auto; margin-right: 5px;">
+    <label for="mostrar" style="font-size: 14px; color: #555; cursor: pointer;">Mostrar senha</label>
+  </div>
 
   <button class="salvar" onclick="login()">Entrar</button>
+  <button class="salvar" style="background: #444;" onclick="criarConta()">Criar Nova Conta</button>
 
-  <p>
-    Usuário: admin | Senha: 123
+  <p style="text-align: center; margin-top: 15px;">
+    <a href="#" onclick="recuperarSenha()" style="color: #c62828; text-decoration: none; font-weight: bold;">Esqueceu a senha?</a>
   </p>
 
+  <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+
+  <p style="text-align: center; margin-bottom: 10px; color: #555; font-size: 14px;">
+    Ou acesse rapidamente:
+  </p>
+
+  <button class="salvar" style="background: #4285F4;" onclick="loginComGoogle()">
+    Entrar com o Google
+  </button>
 </div>
 
 <div id="sistema" style="display:none;">
@@ -38,133 +47,80 @@
 </header>
 
 <nav>
-
-<button onclick="mostrarPagina('inicio')">
-🏠 Início
-</button>
-
-<button onclick="mostrarPagina('criar')">
-🚨 Criar Alerta
-</button>
-
-<button onclick="mostrarPagina('alertas')">
-📢 Alertas
-</button>
-
-<button onclick="mostrarPagina('mapaPagina')">
-🗺️ Mapa
-</button>
-
-<button onclick="mostrarPagina('sobre')">
-ℹ Sobre
-</button>
-
+  <button onclick="mostrarPagina('inicio')">🏠 Início</button>
+  <button onclick="mostrarPagina('criar')">🚨 Criar Alerta</button>
+  <button onclick="mostrarPagina('alertas')">📢 Alertas</button>
+  <button onclick="mostrarPagina('mapaPagina')">🗺️ Mapa</button>
+  <button onclick="mostrarPagina('sobre')">ℹ Sobre</button>
+  <button onclick="sair()" style="background: #c62828;">🚪 Sair</button>
 </nav>
 
 <div class="container">
+  
+  <div id="inicio" class="pagina ativa">
+    <div class="card" style="text-align: center;">
+      <h2>📡 Radar de Segurança</h2>
+      <p style="margin-bottom: 20px;">Monitore alertas próximos da sua localização em tempo real.</p>
+      
+      <div id="statusRadar" style="margin: 20px auto; padding: 20px; border-radius: 10px; background: #e0e0e0; max-width: 300px; transition: 0.5s;">
+        <h3 id="textoRadar" style="color: #333; margin-bottom: 5px;">Radar Desligado</h3>
+        <p id="detalheRadar" style="font-size: 14px; color: #666;">Clique no botão abaixo para ativar.</p>
+      </div>
 
-<div id="inicio" class="pagina ativa">
+      <button class="salvar" id="btnRadar" onclick="iniciarRadar()" style="background: #2E7D32;">
+        Ligar Sonar
+      </button>
+    </div>
+  </div>
 
-<div class="card">
+  <div id="criar" class="pagina">
+    <div class="card">
+      <h2>Criar Alerta</h2>
+      <select id="tipo">
+        <option value="">Selecione o tipo</option>
+        <option>Roubo</option>
+        <option>Alagamento</option>
+        <option>Falta de Luz</option>
+        <option>Animal Perdido</option>
+      </select>
+      <input type="text" id="bairro" placeholder="Digite o bairro">
+      <textarea id="descricao" rows="4" placeholder="Descreva o problema"></textarea>
+      <button class="salvar" onclick="criarAlerta()">Publicar Alerta</button>
+    </div>
+  </div>
 
-<h2>Bem-vindo</h2>
+  <div id="alertas" class="pagina">
+    <div class="card">
+      <h2>📢 Alertas Publicados</h2>
+      <div id="listaAlertas"></div>
+    </div>
+  </div>
 
-<p>
-Plataforma para alertas comunitários.
-</p>
+  <div id="mapaPagina" class="pagina">
+    <div class="card" style="position: relative;"> <h2>🗺️ Mapa Interativo</h2>
+      <p>Clique no mapa para criar um alerta.</p>
+      
+      <div id="mapa"></div>
 
-</div>
+      <button id="btnCentralizar" onclick="centrarEmMim()" class="botao-mapa">
+         📍 Centralizar em Mim
+      </button>
+    </div>
+  </div>
 
-</div>
-
-<div id="criar" class="pagina">
-
-<div class="card">
-
-<h2>Criar Alerta</h2>
-
-<select id="tipo">
-
-<option value="">
-Selecione o tipo
-</option>
-
-<option>Roubo</option>
-<option>Alagamento</option>
-<option>Falta de Luz</option>
-<option>Animal Perdido</option>
-
-</select>
-
-<input type="text"
-id="bairro"
-placeholder="Digite o bairro">
-
-<textarea id="descricao"
-rows="4"
-placeholder="Descreva o problema">
-</textarea>
-
-<button class="salvar"
-onclick="criarAlerta()">
-
-Publicar Alerta
-
-</button>
-
-</div>
-
-</div>
-
-<div id="alertas" class="pagina">
-
-<div class="card">
-
-<h2>📢 Alertas Publicados</h2>
-
-<div id="listaAlertas"></div>
-
-</div>
-
-</div>
-
-<div id="mapaPagina" class="pagina">
-
-<div class="card">
-
-<h2>🗺️ Mapa Interativo</h2>
-
-<p>
-Clique no mapa para criar um alerta.
-</p>
-
-<div id="mapa"></div>
-
-</div>
-
-</div>
-
-<div id="sobre" class="pagina">
-
-<div class="card">
-
-<h2>ℹ Sobre o Projeto</h2>
-
-<p>
-Projeto acadêmico desenvolvido para
-melhorar a comunicação da comunidade.
-</p>
-
-</div>
-
-</div>
-
+  <div id="sobre" class="pagina">
+    <div class="card">
+      <h2>ℹ Sobre o Projeto</h2>
+      <p>Projeto acadêmico desenvolvido para melhorar a comunicação da comunidade.</p>
+    </div>
+  </div>
 </div>
 
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth-compat.js"></script>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="script.js"></script>
