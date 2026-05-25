@@ -14,7 +14,7 @@
   <h2>🚨 Alerta Bairro</h2>
   
   <input type="email" id="email" placeholder="Seu E-mail">
-  <input type="password" id="senha" placeholder="Sua Senha">
+  <input type="password" id="senha" placeholder="Senha">
   
   <div style="text-align: left; margin-top: 5px; margin-bottom: 10px;">
     <input type="checkbox" id="mostrar" onclick="mostrarOcultarSenhaLogin()" style="width: auto; margin-right: 5px;">
@@ -83,9 +83,13 @@
         <option>Falta de Luz</option>
         <option>Animal Perdido</option>
       </select>
-      <input type="text" id="bairro" placeholder="Digite o bairro">
+      <input type="text" id="bairro" placeholder="Digite o bairro automático">
       <textarea id="descricao" rows="4" placeholder="Descreva o problema"></textarea>
-      <button class="salvar" onclick="criarAlerta()">Publicar Alerta</button>
+      
+      <label style="font-size: 14px; margin-top: 15px; display: block; color: #555; font-weight: bold;">Adicionar Foto (Opcional):</label>
+      <input type="file" id="fotoAlerta" accept="image/*" style="margin-top: 5px; border: none; padding: 0;">
+      
+      <button class="salvar" onclick="criarAlerta()" style="margin-top: 20px;">Publicar Alerta</button>
     </div>
   </div>
 
@@ -97,13 +101,14 @@
   </div>
 
   <div id="mapaPagina" class="pagina">
-    <div class="card" style="position: relative;"> <h2>🗺️ Mapa Interativo</h2>
+    <div class="card" style="position: relative;"> 
+      <h2>🗺️ Mapa Interativo</h2>
       <p>Clique no mapa para criar um alerta.</p>
       
       <div id="mapa"></div>
 
       <button id="btnCentralizar" onclick="centrarEmMim()" class="botao-mapa">
-         📍 Centralizar em Mim
+         📍 Centralizar
       </button>
     </div>
   </div>
@@ -121,8 +126,10 @@
 <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-storage-compat.js"></script>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <script src="script.js"></script>
 
 </body>
